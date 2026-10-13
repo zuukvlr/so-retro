@@ -16,3 +16,12 @@ it('botão + abre as 3 opções de criação', () => {
   fireEvent.click(screen.getByLabelText('Novo documento'))
   for (const t of ['Orçamento de peças', 'Orçamento de serviços', 'Recibo']) expect(screen.getAllByText(t).length).toBeGreaterThan(0)
 })
+
+it('esconde o botão + nas telas de formulário (não cobre o total)', () => {
+  for (const path of ['/new/service', '/new/parts', '/new/receipt', '/edit/abc']) {
+    render(<MemoryRouter initialEntries={[path]}><BottomNav /></MemoryRouter>)
+    expect(screen.queryByLabelText('Novo documento')).toBeNull()
+    expect(screen.getByText('Início')).toBeTruthy() // o menu continua
+    cleanup()
+  }
+})

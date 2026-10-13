@@ -93,7 +93,7 @@ function Inner({ settings, catalog, type, existing }: { settings: Settings; cata
 
       <div className="section-title"><h2 style={{ margin: 0 }}>Documento</h2></div>
       <div className="card stack">
-        <div className="grid2">
+        <div className="stack">
           <TextField label="Data de emissão" type="date" value={d.issuedAt} onChange={(v) => set({ issuedAt: v })} />
           <TextField label="Válido até" type="date" value={d.validUntil} onChange={(v) => set({ validUntil: v })} />
         </div>

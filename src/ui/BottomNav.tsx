@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { NavLink, useNavigate } from 'react-router-dom'
+import { NavLink, useLocation, useNavigate } from 'react-router-dom'
 import { Icon } from './Icon'
 
 const ITEMS = [
@@ -19,6 +19,9 @@ const NEW = [
 export function BottomNav() {
   const [open, setOpen] = useState(false)
   const nav = useNavigate()
+  const { pathname } = useLocation()
+  // Nos formulários o + cobriria o total e não faz sentido criar outro documento no meio de um.
+  const showFab = !pathname.startsWith('/new') && !pathname.startsWith('/edit')
   return (
     <>
       <nav className="bottom-nav" aria-label="Navegação principal">
@@ -29,8 +32,8 @@ export function BottomNav() {
           </NavLink>
         ))}
       </nav>
-      <button className="fab" aria-label="Novo documento" onClick={() => setOpen(true)}>+</button>
-      {open && (
+      {showFab && <button className="fab" aria-label="Novo documento" onClick={() => setOpen(true)}>+</button>}
+      {open && showFab && (
         <div className="sheet-back" onClick={() => setOpen(false)}>
           <div className="sheet stack" onClick={(e) => e.stopPropagation()} role="dialog" aria-label="Novo documento">
             <h2>Novo documento</h2>

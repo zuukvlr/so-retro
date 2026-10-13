@@ -53,7 +53,7 @@ export function DocList({ defaultType }: { defaultType: TypeFilter }) {
             {Object.entries(STATUS_OPTIONS).map(([k, l]) => <option key={k} value={k}>{l}</option>)}
           </select>
         </div>
-        <div className="grid2">
+        <div className="stack">
           <label className="field"><span>De</span><input className="input" type="date" value={from} onChange={(e) => setParam('from', e.target.value)} /></label>
           <label className="field"><span>Até</span><input className="input" type="date" value={to} onChange={(e) => setParam('to', e.target.value)} /></label>
         </div>
