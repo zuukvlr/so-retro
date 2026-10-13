@@ -8,6 +8,7 @@ import { backupIsStale, isPersisted, requestPersistence } from '../../pwa/storag
 import { downloadBlob, shareFile, toFile } from '../../share/share'
 import { SelectField, TextField } from '../fields/TextField'
 import { PartsPage } from '../parts/PartsPage'
+import { applyTheme } from '../theme'
 import { useUi } from '../UiProvider'
 import { errMsg, useLoad } from '../util'
 
@@ -38,6 +39,7 @@ export function SettingsPage() {
     if (!(next.defaultValidityDays >= 0)) return ui.err('A validade padrão deve ser um número de dias.')
     try {
       await repo.saveSettings({ ...next, companyName: next.companyName.trim() })
+      applyTheme(next.theme)
       ui.ok('Configurações salvas')
       reload()
     } catch (e) {

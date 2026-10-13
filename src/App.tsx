@@ -3,6 +3,7 @@ import { HashRouter, Navigate, Route, Routes, useParams } from 'react-router-dom
 import { repo } from './db/repo'
 import { requestPersistence } from './pwa/storage'
 import { BottomNav } from './ui/BottomNav'
+import { applyTheme } from './ui/theme'
 import { ClientsPage } from './ui/clients/ClientsPage'
 import { Dashboard } from './ui/docs/Dashboard'
 import { DocDetail } from './ui/docs/DocDetail'
@@ -24,11 +25,7 @@ function EditPage() {
 
 function useTheme() {
   useEffect(() => {
-    repo.getSettings().then((s) => {
-      const el = document.documentElement
-      if (s.theme === 'auto') el.removeAttribute('data-theme')
-      else el.setAttribute('data-theme', s.theme)
-    })
+    repo.getSettings().then((s) => applyTheme(s.theme))
   }, [])
 }
 
