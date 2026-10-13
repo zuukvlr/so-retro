@@ -1,7 +1,7 @@
-@import '@fontsource/poppins/500.css';
-@import '@fontsource/poppins/600.css';
-@import '@fontsource/inter/400.css';
-@import '@fontsource/inter/600.css';
+@import '@fontsource/poppins/latin-500.css';
+@import '@fontsource/poppins/latin-600.css';
+@import '@fontsource/inter/latin-400.css';
+@import '@fontsource/inter/latin-600.css';
 
 :root {
   --brand: #ebaf29;
@@ -99,8 +99,8 @@ textarea.input { min-height: 84px; resize: vertical; }
 }
 .bottom-nav a.active { color: var(--brand); }
 .fab {
-  position: fixed; left: 50%; transform: translateX(-50%); z-index: 30;
-  bottom: calc(var(--nav-h) + var(--safe-bottom) - 22px);
+  position: fixed; right: 16px; z-index: 30;
+  bottom: calc(var(--nav-h) + var(--safe-bottom) + 16px);
   width: 56px; height: 56px; border-radius: 50%; border: 4px solid var(--bg);
   background: var(--brand); color: var(--ink); font-size: 30px; font-weight: 600; cursor: pointer;
 }
