@@ -77,8 +77,8 @@ export async function buildQuotePdf(q: QuoteDoc, s: Settings): Promise<Blob> {
 
   if (v.type === 'service_quote') {
     const eq = v.equipment
-    const eqLines = [eq?.item && `Equipamento: ${eq.item}`, eq?.brand && `Marca: ${eq.brand}`, eq?.model && `Modelo: ${eq.model}`, eq?.serial && `Nº de série: ${eq.serial}`].filter(Boolean) as string[]
-    if (eqLines.length) y = infoBlock(doc, M, ensureSpace(doc, y, 25, title), W, 'Equipamento', eqLines) + 3
+    const eqLines = [eq?.item && `Veículo/Equipamento/Produto: ${eq.item}`, eq?.brand && `Marca: ${eq.brand}`, eq?.model && `Modelo: ${eq.model}`].filter(Boolean) as string[]
+    if (eqLines.length) y = infoBlock(doc, M, ensureSpace(doc, y, 25, title), W, 'Veículo / Equipamento / Produto', eqLines) + 3
     y = paragraph(doc, y, 'Problema / solicitação', v.problem, title)
     y = paragraph(doc, y, 'Diagnóstico técnico', v.diagnosis, title)
   }

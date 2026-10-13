@@ -103,14 +103,13 @@ function Inner({ settings, catalog, type, existing }: { settings: Settings; cata
 
       {isService && (
         <>
-          <div className="section-title"><h2 style={{ margin: 0 }}>Equipamento e problema</h2></div>
+          <div className="section-title"><h2 style={{ margin: 0 }}>Veículo e problema</h2></div>
           <div className="card stack">
-            <TextField label="Equipamento ou produto (opcional)" value={d.equipment?.item} onChange={(v) => set({ equipment: { ...d.equipment, item: v } })} />
+            <TextField label="Veículo/Equipamento/Produto" value={d.equipment?.item} onChange={(v) => set({ equipment: { ...d.equipment, item: v } })} />
             <div className="grid2">
               <TextField label="Marca" value={d.equipment?.brand} onChange={(v) => set({ equipment: { ...d.equipment, brand: v } })} />
               <TextField label="Modelo" value={d.equipment?.model} onChange={(v) => set({ equipment: { ...d.equipment, model: v } })} />
             </div>
-            <TextField label="Número de série" value={d.equipment?.serial} onChange={(v) => set({ equipment: { ...d.equipment, serial: v } })} />
             <TextField label="Descrição do problema ou solicitação" value={d.problem} multiline onChange={(v) => set({ problem: v })} />
             <TextField label="Diagnóstico técnico (opcional)" value={d.diagnosis} multiline onChange={(v) => set({ diagnosis: v })} />
           </div>
