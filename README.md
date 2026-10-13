@@ -36,7 +36,7 @@ Tudo em **Config.**:
 
 | O quê | Onde |
 |---|---|
-| Logo | Config. → Empresa → *Trocar logo* (PNG/JPG). *Usar logo padrão* volta à original |
+| Logo | Config. → Empresa → *Trocar logo* (PNG/JPG). *Usar logo padrão* volta à original. A logo padrão muda sozinha: escura no tema claro, branca no tema escuro (uma logo trocada por você é usada igual nos dois temas) |
 | Dados da empresa, Pix, observações, validade padrão | Config. → Empresa / Padrões dos documentos |
 | Numeração | Config. → Numeração: prefixo (ex. `ORC-S-`), número inicial e quantidade de dígitos |
 | Tema | Config. → Tema (automático, claro ou escuro) |

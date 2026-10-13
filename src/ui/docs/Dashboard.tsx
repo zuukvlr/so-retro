@@ -4,6 +4,7 @@ import { repo } from '../../db/repo'
 import { todayISO } from '../../domain/dates'
 import { formatBRL } from '../../domain/money'
 import { dashboardStats } from '../../domain/stats'
+import { Logo } from '../Logo'
 import { useLoad } from '../util'
 import { DocRow } from './DocRow'
 
@@ -15,7 +16,7 @@ export function Dashboard() {
   return (
     <div className="page">
       <div className="row" style={{ alignItems: 'center', marginBottom: 12 }}>
-        <img className="logo" style={{ width: 56, height: 56, flex: 'none' }} src="./logo.png" alt="Só Retro" />
+        <Logo size={56} />
         <div><h1 style={{ margin: 0 }}>Só Retro</h1><span className="muted">Peças e Serviços</span></div>
       </div>
 

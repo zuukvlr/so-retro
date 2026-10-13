@@ -7,6 +7,7 @@ import type { DocType, Settings } from '../../domain/types'
 import { backupIsStale, isPersisted, requestPersistence } from '../../pwa/storage'
 import { downloadBlob, shareFile, toFile } from '../../share/share'
 import { SelectField, TextField } from '../fields/TextField'
+import { Logo } from '../Logo'
 import { PartsPage } from '../parts/PartsPage'
 import { applyTheme } from '../theme'
 import { useUi } from '../UiProvider'
@@ -18,18 +19,11 @@ export function SettingsPage() {
   const ui = useUi()
   const { data, reload } = useLoad(() => repo.getSettings())
   const [s, setS] = useState<Settings>()
-  const [logoUrl, setLogoUrl] = useState<string>()
   const [persisted, setPersisted] = useState<boolean>()
   const [busy, setBusy] = useState(false)
 
   useEffect(() => { if (data) setS(data) }, [data])
   useEffect(() => { isPersisted().then(setPersisted) }, [])
-  useEffect(() => {
-    if (!s?.logo) return setLogoUrl(undefined)
-    const u = URL.createObjectURL(s.logo)
-    setLogoUrl(u)
-    return () => URL.revokeObjectURL(u)
-  }, [s?.logo])
 
   if (!s) return <div className="page muted">Carregando…</div>
   const set = (patch: Partial<Settings>) => setS({ ...s, ...patch })
@@ -98,7 +92,7 @@ export function SettingsPage() {
       <div className="section-title"><h2 style={{ margin: 0 }}>Empresa ou profissional</h2></div>
       <div className="card stack">
         <div className="row" style={{ alignItems: 'center' }}>
-          <img className="logo" style={{ flex: 'none', width: 72, height: 72 }} src={logoUrl ?? './logo.png'} alt="Logo" />
+          <Logo size={72} blob={s.logo ?? null} />
           <div className="stack">
             <label className="btn btn-sm" style={{ cursor: 'pointer' }}>
               Trocar logo
