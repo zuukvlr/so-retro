@@ -89,3 +89,21 @@ it('CNPJ, telefone e e-mail digitados direto no orçamento, sem cadastrar o clie
   expect(doc.clientId).toBeUndefined() // não precisou cadastrar
   expect(await repo.listClients()).toHaveLength(0)
 })
+
+it('orçamento de serviços tem Horímetro no lugar de Marca e Modelo', async () => {
+  renderForm()
+  await screen.findByText('Cliente')
+  expect(screen.queryByLabelText('Marca')).toBeNull()
+  expect(screen.queryByLabelText('Modelo')).toBeNull()
+  type(screen.getByLabelText('Cliente (nome)'), 'Construtora X')
+  type(screen.getByLabelText('Veículo/Equipamento/Produto'), 'Retroescavadeira CAT 416')
+  type(screen.getByLabelText('Horímetro'), '4.250 h')
+  fireEvent.click(screen.getByText('+ Adicionar serviço'))
+  type(screen.getByLabelText(/Descrição do item/), 'Revisão')
+  type(screen.getByLabelText('Valor unitário (R$)'), '100')
+  fireEvent.click(screen.getByText('Salvar orçamento'))
+  await waitFor(async () => expect(await repo.listDocs()).toHaveLength(1))
+  const [doc] = await repo.listDocs()
+  if (doc.type === 'receipt') throw new Error('tipo inesperado')
+  expect(doc.equipment).toEqual({ item: 'Retroescavadeira CAT 416', horimeter: '4.250 h' })
+})

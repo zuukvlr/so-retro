@@ -66,7 +66,7 @@ export type QuoteDoc = DocBase & {
   discount?: GeneralDiscount
   totals: Totals
   /** Veículo, equipamento ou produto atendido (oficina) */
-  equipment?: { item?: string; brand?: string; model?: string }
+  equipment?: { item?: string; horimeter?: string }
   problem?: string
   diagnosis?: string
 }

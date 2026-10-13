@@ -62,10 +62,15 @@ describe('buildQuotePdf', () => {
     expect(pages).toBeGreaterThan(2)
   })
   it('mostra Veículo/Equipamento/Produto e nunca o número de série (nem de dados antigos)', async () => {
-    const q = { ...quote(), equipment: { item: 'Fiat Strada 2020', brand: 'Fiat', model: 'Strada', serial: 'OLDSERIAL9' } } as unknown as QuoteDoc
+    const q = { ...quote(), equipment: { item: 'Retroescavadeira CAT 416', horimeter: '4.250 h', brand: 'OLDMARCA', model: 'OLDMODELO', serial: 'OLDSERIAL9' } } as unknown as QuoteDoc
     const t = await rawText(await buildQuotePdf(q, defaultSettings()))
     expect(t).toContain('Veículo/Equipamento/Produto')
-    expect(t).toContain('Fiat Strada 2020')
+    expect(t).toContain('Retroescavadeira CAT 416')
+    expect(t).toContain('Horímetro: 4.250 h')
+    expect(t).not.toContain('OLDMARCA')
+    expect(t).not.toContain('OLDMODELO')
+    expect(t).not.toContain('Marca')
+    expect(t).not.toContain('Modelo')
     expect(t).not.toContain('OLDSERIAL9')
     expect(t).not.toContain('de série')
   })
