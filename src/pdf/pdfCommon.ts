@@ -34,7 +34,7 @@ export function drawHeader(doc: jsPDF, s: Settings, logo: PreparedLogo | null, t
     const k = logo.w / logo.h
     const w = k >= 1 ? size : size * k
     const h = k >= 1 ? size / k : size
-    doc.addImage(logo.dataUrl, 'PNG', M, 8 + (size - h) / 2, w, h)
+    doc.addImage(logo.dataUrl, 'JPEG', M, 8 + (size - h) / 2, w, h)
   }
   doc.setTextColor(...INK)
   doc.setFont('helvetica', 'bold').setFontSize(15)
@@ -59,8 +59,8 @@ export function drawHeader(doc: jsPDF, s: Settings, logo: PreparedLogo | null, t
 }
 
 /** Garante h mm livres; se não couber, abre nova página (com mini-cabeçalho). */
-export function ensureSpace(doc: jsPDF, y: number, h: number, runningTitle: string): number {
-  if (y + h <= BOTTOM) return y
+export function ensureSpace(doc: jsPDF, y: number, h: number, runningTitle: string, limit: number = BOTTOM): number {
+  if (y + h <= limit) return y
   doc.addPage()
   doc.setFont('helvetica', 'bold').setFontSize(8).setTextColor(...GREY)
   doc.text(S(runningTitle), M, 12)

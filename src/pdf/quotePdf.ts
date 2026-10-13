@@ -122,7 +122,7 @@ export async function buildQuotePdf(q: QuoteDoc, s: Settings): Promise<Blob> {
   y = paragraph(doc, y, 'Informações de pagamento', s.paymentInfo, title)
 
   // Assinaturas
-  y = ensureSpace(doc, y, 30, title) + 14
+  y = ensureSpace(doc, y, 15, title, 285) + 10
   signatureLine(doc, y, M, 78, 'Aceite do cliente')
   signatureLine(doc, y, M + W - 78, 78, S(s.companyName))
 

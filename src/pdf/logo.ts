@@ -2,7 +2,7 @@ import type { Settings } from '../domain/types'
 
 export type PreparedLogo = { dataUrl: string; w: number; h: number }
 
-/** Reduz a logo (máx. 400px) e devolve PNG; em ambientes sem canvas devolve null (PDF sai sem logo). */
+/** Reduz a logo (máx. 400px, fundo branco) e devolve JPEG leve; em ambientes sem canvas devolve null (PDF sai sem logo). */
 export async function prepareLogo(blob: Blob): Promise<PreparedLogo | null> {
   try {
     const bmp = await createImageBitmap(blob)
@@ -14,8 +14,10 @@ export async function prepareLogo(blob: Blob): Promise<PreparedLogo | null> {
     canvas.height = h
     const ctx = canvas.getContext('2d')
     if (!ctx) return null
+    ctx.fillStyle = '#ffffff'
+    ctx.fillRect(0, 0, w, h)
     ctx.drawImage(bmp, 0, 0, w, h)
-    return { dataUrl: canvas.toDataURL('image/png'), w, h }
+    return { dataUrl: canvas.toDataURL('image/jpeg', 0.92), w, h }
   } catch {
     return null
   }

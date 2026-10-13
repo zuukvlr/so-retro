@@ -64,7 +64,7 @@ export async function buildReceiptPdf(r: ReceiptDoc, s: Settings): Promise<Blob>
   y = paragraph(doc, y, 'Referente a', v.reference, title)
   y = paragraph(doc, y, 'Observações', v.notes, title)
 
-  y = ensureSpace(doc, y, 30, title) + 16
+  y = ensureSpace(doc, y, 17, title, 285) + 12
   signatureLine(doc, y, M + W / 2 - 40, 80, v.issuer.name || s.companyName)
 
   drawFooters(doc, s)
