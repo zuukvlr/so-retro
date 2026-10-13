@@ -79,13 +79,15 @@ describe('buildReceiptPdf', () => {
   it('gera recibo parcial com saldo', async () => {
     const r = {
       id: 'r1', type: 'receipt', number: 'REC-0001', seq: 1, version: 1, status: 'issued', createdAt: 'x', issuedAt: '2026-10-13',
-      client: { name: 'Ana' }, payer: { name: 'Ana', cpfCnpj: '123' }, issuer: { name: 'Só Retro' }, kind: 'partial',
+      client: { name: 'Ana' }, payer: { name: 'Ana', cpfCnpj: '123', phone: '(11) 97777-6666', email: 'ana@exemplo.com' }, issuer: { name: 'Só Retro' }, kind: 'partial',
       receivedCents: 10000, totalCents: 30000, method: 'pix', reference: 'Serviço de manutenção', history: [], privateNotes: 'SEGREDO123',
     } as unknown as ReceiptDoc
     const b = await buildReceiptPdf(r, defaultSettings())
     const t = await rawText(b)
     expect(t.startsWith('%PDF')).toBe(true)
     expect(t).toContain('RECIBO')
+    expect(t).toContain('97777-6666')
+    expect(t).toContain('ana@exemplo.com')
     expect(t).not.toContain('SEGREDO123')
     expect(t).not.toMatch(/quita/i)
   })

@@ -70,3 +70,22 @@ it('desconto maior que o subtotal nunca gera total negativo', async () => {
   type(screen.getByLabelText('Desconto geral (R$)'), '999')
   await waitFor(() => expect(screen.getByText(/R\$\s*0,00/, { selector: 'b' })).toBeTruthy())
 })
+
+it('CNPJ, telefone e e-mail digitados direto no orçamento, sem cadastrar o cliente', async () => {
+  renderForm()
+  await screen.findByText('Cliente')
+  type(screen.getByLabelText('Cliente (nome)'), 'Oficina do Zé')
+  // campos visíveis de cara, sem precisar abrir "mais dados"
+  type(screen.getByLabelText('CPF ou CNPJ'), '12.345.678/0001-90')
+  type(screen.getByLabelText('Telefone'), '(11) 3333-4444')
+  type(screen.getByLabelText('E-mail'), 'ze@oficina.com')
+  fireEvent.click(screen.getByText('+ Adicionar serviço'))
+  type(screen.getByLabelText(/Descrição do item/), 'Revisão')
+  type(screen.getByLabelText('Valor unitário (R$)'), '100')
+  fireEvent.click(screen.getByText('Salvar orçamento'))
+  await waitFor(async () => expect(await repo.listDocs()).toHaveLength(1))
+  const [doc] = await repo.listDocs()
+  expect(doc.client).toMatchObject({ name: 'Oficina do Zé', cpfCnpj: '12.345.678/0001-90', phone: '(11) 3333-4444', email: 'ze@oficina.com' })
+  expect(doc.clientId).toBeUndefined() // não precisou cadastrar
+  expect(await repo.listClients()).toHaveLength(0)
+})

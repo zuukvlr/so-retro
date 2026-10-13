@@ -54,3 +54,17 @@ it('emitir pede confirmação e só então grava como emitido', async () => {
   fireEvent.click(await screen.findByText('Emitir recibo', { selector: '.sheet button' }))
   await waitFor(async () => expect((await repo.listDocs())[0]?.status).toBe('issued'))
 })
+
+it('pagador com CNPJ, telefone e e-mail digitados direto, sem cadastro', async () => {
+  renderForm()
+  await fill('100', '300')
+  type(screen.getByLabelText('CPF ou CNPJ', { selector: 'fieldset input' }), '98.765.432/0001-10')
+  type(screen.getByLabelText('Telefone', { selector: 'fieldset input' }), '(11) 97777-6666')
+  type(screen.getByLabelText('E-mail', { selector: 'fieldset input' }), 'ana@exemplo.com')
+  fireEvent.click(screen.getByText('Salvar rascunho'))
+  await waitFor(async () => expect(await repo.listDocs()).toHaveLength(1))
+  const [r] = await repo.listDocs()
+  if (r.type !== 'receipt') throw new Error('tipo inesperado')
+  expect(r.payer).toMatchObject({ name: 'Ana Lima', cpfCnpj: '98.765.432/0001-10', phone: '(11) 97777-6666', email: 'ana@exemplo.com' })
+  expect(await repo.listClients()).toHaveLength(0)
+})

@@ -41,6 +41,7 @@ export async function buildReceiptPdf(r: ReceiptDoc, s: Settings): Promise<Blob>
   const half = W / 2 - 4
   const yPayer = infoBlock(doc, M, ensureSpace(doc, y, 30, title), half, 'Pagador', [
     v.payer.name, v.payer.cpfCnpj ? `CPF/CNPJ: ${v.payer.cpfCnpj}` : '', v.payer.address ?? '',
+    [v.payer.phone && `Tel: ${v.payer.phone}`, v.payer.whatsapp && `WhatsApp: ${v.payer.whatsapp}`].filter(Boolean).join('  '), v.payer.email ?? '',
   ])
   const yIssuer = infoBlock(doc, M + W / 2 + 4, y, half, 'Recebedor', [
     v.issuer.name, v.issuer.cpfCnpj ? `CPF/CNPJ: ${v.issuer.cpfCnpj}` : '', v.issuer.address ?? '', v.issuer.phone ? `Tel: ${v.issuer.phone}` : '',
