@@ -77,7 +77,8 @@ describe('buildQuotePdf', () => {
   it('cabeçalho com dados da empresa, CNPJ, telefones e Instagram', async () => {
     const t = await rawText(await buildQuotePdf(quote(), defaultSettings()))
     expect(t).toContain('SO RETRO COMERCIO E SERVIÇOS DE PEÇAS LTDA')
-    expect(t).toContain('45.948.459/0001-50')
+    expect(t).toContain('CNPJ: 45.948.459/0001-50')
+    expect(t).not.toContain('CPF/CNPJ: 45.948.459/0001-50')
     expect(t).toContain('92 99912-8548 / 92 98597-5792')
     expect(t).toContain('@soretro2021so')
     expect(t).toContain('Tv. Campos, 21 Jorge Teixeira 4 Manaus-AM')

@@ -18,7 +18,7 @@ export const lastY = (doc: jsPDF): number => (doc as unknown as { lastAutoTable:
 export function companyLines(s: Settings): string[] {
   return [
     s.legalName && s.legalName !== s.companyName ? s.legalName : '',
-    s.cpfCnpj ? `CPF/CNPJ: ${s.cpfCnpj}` : '',
+    s.cpfCnpj ? `CNPJ: ${s.cpfCnpj}` : '',
     [s.phone && `Tel: ${s.phone}`, s.whatsapp && `WhatsApp: ${s.whatsapp}`].filter(Boolean).join('  '),
     s.email ?? '',
     s.address ?? '',
