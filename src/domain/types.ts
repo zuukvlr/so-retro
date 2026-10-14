@@ -25,6 +25,7 @@ export type Settings = {
   whatsapp?: string
   email?: string
   address?: string
+  instagram?: string
   paymentInfo?: string
   defaultPaymentTerms?: string
   defaultValidityDays: number

@@ -46,3 +46,30 @@ it('settings padrão quando vazio', async () => {
   expect(s.showCostInPdf).toBe(false)
   expect(s.defaultValidityDays).toBe(15)
 })
+
+it('dados padrão da Só Retro', async () => {
+  const s = await repo.getSettings()
+  expect(s).toMatchObject({
+    companyName: 'SO RETRO COMERCIO E SERVIÇOS DE PEÇAS LTDA',
+    cpfCnpj: '45.948.459/0001-50',
+    phone: '92 99912-8548 / 92 98597-5792',
+    address: 'Tv. Campos, 21 Jorge Teixeira 4 Manaus-AM',
+    instagram: '@soretro2021so',
+  })
+})
+
+it('configurações salvas antes (nome antigo "Só Retro", campos vazios) recebem os novos padrões', async () => {
+  const db = await (await import('./db')).getDb()
+  await db.put('settings', { key: 'main', companyName: 'Só Retro', cpfCnpj: undefined, phone: undefined, defaultValidityDays: 30 })
+  const s = await repo.getSettings()
+  expect(s.companyName).toBe('SO RETRO COMERCIO E SERVIÇOS DE PEÇAS LTDA')
+  expect(s.cpfCnpj).toBe('45.948.459/0001-50')
+  expect(s.defaultValidityDays).toBe(30) // o que o usuário mudou é mantido
+})
+
+it('nome e telefone que o usuário personalizou não são sobrescritos', async () => {
+  const s = await repo.getSettings()
+  await repo.saveSettings({ ...s, companyName: 'Outra Oficina', phone: '11 1111-1111', instagram: '' })
+  const s2 = await repo.getSettings()
+  expect(s2).toMatchObject({ companyName: 'Outra Oficina', phone: '11 1111-1111', instagram: '' })
+})

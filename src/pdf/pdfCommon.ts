@@ -22,6 +22,7 @@ export function companyLines(s: Settings): string[] {
     [s.phone && `Tel: ${s.phone}`, s.whatsapp && `WhatsApp: ${s.whatsapp}`].filter(Boolean).join('  '),
     s.email ?? '',
     s.address ?? '',
+    s.instagram ? `Instagram: ${s.instagram}` : '',
   ]
     .filter(Boolean)
     .map(S)
@@ -38,9 +39,10 @@ export function drawHeader(doc: jsPDF, s: Settings, logo: PreparedLogo | null, t
   }
   doc.setTextColor(...INK)
   doc.setFont('helvetica', 'bold').setFontSize(15)
-  doc.text(S(s.companyName), 210 - M, 14, { align: 'right' })
+  const nameLines = doc.splitTextToSize(S(s.companyName), 125) as string[]
+  doc.text(nameLines, 210 - M, 14, { align: 'right' })
   doc.setFont('helvetica', 'normal').setFontSize(8.5).setTextColor(...GREY)
-  let y = 19
+  let y = 14 + nameLines.length * 6 + 0
   for (const l of companyLines(s)) {
     for (const part of doc.splitTextToSize(l, 100) as string[]) {
       doc.text(part, 210 - M, y, { align: 'right' })
@@ -113,7 +115,7 @@ export function infoBlock(doc: jsPDF, x: number, y: number, w: number, heading: 
 export function drawFooters(doc: jsPDF, s: Settings): void {
   const n = doc.getNumberOfPages()
   const contact = S(
-    [s.companyName, s.phone && `Tel: ${s.phone}`, s.whatsapp && `WhatsApp: ${s.whatsapp}`, s.email].filter(Boolean).join('  |  '),
+    [s.phone && `Tel: ${s.phone}`, s.whatsapp && `WhatsApp: ${s.whatsapp}`, s.email, s.instagram].filter(Boolean).join('  |  '),
   )
   for (let i = 1; i <= n; i++) {
     doc.setPage(i)

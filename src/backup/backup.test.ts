@@ -15,7 +15,7 @@ it('round-trip: exporta, zera e restaura tudo', async () => {
   await repo.saveDoc(doc)
   await repo.allocateNumber('receipt')
   const s = await repo.getSettings()
-  await repo.saveSettings({ ...s, companyName: 'Só Retro', logo: new Blob(['abc'], { type: 'image/png' }) })
+  await repo.saveSettings({ ...s, companyName: 'Oficina Teste', logo: new Blob(['abc'], { type: 'image/png' }) })
 
   const blob = await exportBackup()
   await resetDbForTests()
@@ -26,7 +26,7 @@ it('round-trip: exporta, zera e restaura tudo', async () => {
   expect((await repo.listParts())[0].description).toBe('Filtro')
   expect((await repo.getDoc('d1'))?.number).toBe('REC-0001')
   const s2 = await repo.getSettings()
-  expect(s2.companyName).toBe('Só Retro')
+  expect(s2.companyName).toBe('Oficina Teste')
   expect(await s2.logo!.text()).toBe('abc')
   expect((await repo.allocateNumber('receipt')).number).toBe('REC-0002')
 })

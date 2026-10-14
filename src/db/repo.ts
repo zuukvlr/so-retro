@@ -4,7 +4,11 @@ import { blobToBuffer } from './blob'
 import { closeDb, DB_NAME, getDb, type StoredSettings } from './db'
 
 export const defaultSettings = (): Settings => ({
-  companyName: 'Só Retro',
+  companyName: 'SO RETRO COMERCIO E SERVIÇOS DE PEÇAS LTDA',
+  cpfCnpj: '45.948.459/0001-50',
+  phone: '92 99912-8548 / 92 98597-5792',
+  address: 'Tv. Campos, 21 Jorge Teixeira 4 Manaus-AM',
+  instagram: '@soretro2021so',
   defaultValidityDays: 15,
   prefixes: { parts_quote: 'ORC-P-', service_quote: 'ORC-S-', receipt: 'REC-' },
   pad: 4,
@@ -12,6 +16,8 @@ export const defaultSettings = (): Settings => ({
   theme: 'auto',
   showCostInPdf: false,
 })
+
+const OLD_DEFAULT_NAME = 'Só Retro'
 
 /** Logo é guardado como bytes + tipo (Blob direto no IndexedDB é instável em alguns Safari). */
 type LogoBytes = { buf: ArrayBuffer; type: string }
@@ -28,7 +34,10 @@ export function unpackSettings(raw: StoredSettings | undefined): Settings {
   if (!raw) return base
   const { key: _key, logoBytes, ...rest } = raw
   void _key
-  const s = { ...base, ...(rest as Partial<Settings>) }
+  // Campos nunca preenchidos (undefined) e o nome antigo padrão recebem os padrões atuais; o que o usuário editou fica.
+  const saved = Object.fromEntries(Object.entries(rest).filter(([, v]) => v !== undefined)) as Partial<Settings>
+  if (saved.companyName === OLD_DEFAULT_NAME) delete saved.companyName
+  const s = { ...base, ...saved }
   s.prefixes = { ...base.prefixes, ...(rest.prefixes as Settings['prefixes'] | undefined) }
   s.startAt = { ...base.startAt, ...(rest.startAt as Settings['startAt'] | undefined) }
   if (logoBytes) {

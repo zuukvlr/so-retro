@@ -110,6 +110,7 @@ export function SettingsPage() {
         </div>
         <TextField label="E-mail" value={s.email} type="email" inputMode="email" onChange={(v) => set({ email: v })} />
         <TextField label="Endereço" value={s.address} onChange={(v) => set({ address: v })} />
+        <TextField label="Instagram" value={s.instagram} onChange={(v) => set({ instagram: v })} />
       </div>
 
       <div className="section-title"><h2 style={{ margin: 0 }}>Padrões dos documentos</h2></div>
